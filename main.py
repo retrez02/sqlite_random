@@ -54,9 +54,9 @@ def create_database():
             age int
         )""")
 
+if __name__ == "__main__":
+    start()
 
-start()
+    conn.commit()
 
-conn.commit()
-
-conn.close()
+    conn.close()
