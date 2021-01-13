@@ -1,6 +1,4 @@
-import sqlite3
 import main
-
 
 def personal_desc():
     first_name = input("Input your first name: ")
