@@ -1,20 +1,23 @@
 import main
 
+
 def personal_desc():
     first_name = input("Input your first name: ")
     last_name = input("Input your last name: ")
-    email = input("Input your e-mail adress: ")
     age = int(input("Input your age: "))
+    email = input("Input your e-mail adress: ")
+    password_u = str(input("Create password: "))
     conclude = str(
         input("Do you want to be added to the database? Answer with (yes/no): "))
     if conclude == "yes":
-        main.add_user_to_database(first_name, last_name, email, age)
+        main.add_user_to_database(
+            first_name, last_name, age, email, password_u)
     elif conclude == "no":
         main.want_to_cd()
     else:
         print("Invalid input. Please try again!")
         personal_desc()
-    return first_name, last_name, email, age
+    return first_name, last_name, age, email, password_u
 
 
 def delete_table():

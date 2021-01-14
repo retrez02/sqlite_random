@@ -1,5 +1,6 @@
 import sqlite3
 import funcs
+import request
 
 
 conn = sqlite3.connect("infotable.db")
@@ -9,13 +10,15 @@ c = conn.cursor()
 
 def start():
     what_to_do = input(
-        "What do you want to do: Type 'createDatabase' to create  database | Type 'deleteDatabase' to delete the database | Type 'add_account' to add an account to the database | Type 'exit' to close the program: ")
+        "What to do: Type 'createDatabase':create  database |'deleteDatabase':delete the database | 'add_account':add an account to the database | 'exit':close the program| 'request_info':request stored info about you: ")
     if what_to_do == "createDatabase":
         create_database()
     elif what_to_do == "deleteDatabase":
         funcs.delete_table()
     elif what_to_do == "add_account":
         funcs.personal_desc()
+    elif what_to_do == "request_info":
+        request.request_info()
     elif what_to_do == "exit":
         exit()
     else:
@@ -35,10 +38,10 @@ def want_to_cd():
         want_to_cd()
 
 
-def add_user_to_database(first_name, last_name, email, age):
+def add_user_to_database(first_name, last_name, age, email, password_u):
     c.execute(
         "INSERT INTO pers_info VALUES (?,?,?,?)", [
-            first_name, last_name, email, age])
+            first_name, last_name, age, email, password_u])
     c.execute("SELECT rowid, * FROM pers_info")
     items = c.fetchall()
 
@@ -50,8 +53,9 @@ def create_database():
     c.execute("""CREATE TABLE pers_info (
             first_name text,
             last_name text,
+            age int,
             email text,
-            age int
+            password_u text,
         )""")
 
 
