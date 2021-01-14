@@ -13,7 +13,7 @@ def personal_desc():
         main.add_user_to_database(
             first_name, last_name, age, email, password_u)
     elif conclude == "no":
-        main.want_to_cd()
+        return
     else:
         print("Invalid input. Please try again!")
         personal_desc()

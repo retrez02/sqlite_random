@@ -20,9 +20,10 @@ def start():
     elif what_to_do == "request_info":
         request.request_info()
     elif what_to_do == "exit":
-        exit()
+        return
     else:
         print("Invalid input. Please try again!")
+    conn.commit()
     start()
 
 
@@ -40,9 +41,10 @@ def want_to_cd():
 
 def add_user_to_database(first_name, last_name, age, email, password_u):
     c.execute(
-        "INSERT INTO pers_info VALUES (?,?,?,?)", [
+        "INSERT INTO pers_info VALUES (?,?,?,?,?)", [
             first_name, last_name, age, email, password_u])
     c.execute("SELECT rowid, * FROM pers_info")
+    conn.commit()
     items = c.fetchall()
 
     for item in items:
@@ -55,14 +57,14 @@ def create_database():
             last_name text,
             age int,
             email text,
-            password_u text,
+            password_u text
         )""")
 
 
 if __name__ == "__main__":
 
     start()
-
+    print("ccooosfa")
     conn.commit()
 
     conn.close()

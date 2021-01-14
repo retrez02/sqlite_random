@@ -20,10 +20,11 @@ def request_handler():
     pwd_r = str(
         input("Please enter your password: "))
 
-    main.c.execute("SELECT * FROM * WHERE email LIKE ? AND pers_info LIKE ?",
-                   ('%'+email_r+'%')('%'+pwd_r+'%'))
-
-    # main.c.execute("SELECT * FROM * WHERE email LIKE ?",
-    # ('%'+email_r+'%'))
-    # main.c.execute("SELECT * FROM pers_info WHERE password_u LIKE ?",
-    # ('%'+pwd_r+'%'))
+    main.c.execute("SELECT * FROM pers_info WHERE email == ? AND password_u == ?",
+                   ((email_r), (pwd_r),))
+    users = main.c.fetchall()
+    if len(users) == 0:
+        print("x")
+    for user in users:
+        print(str(user[0]) + "\t\t" + str(user[1]) + "\t\t" +
+              str(user[2]) + "\t\t" + str(user[3]) + "\t\t" + str(user[4]))
