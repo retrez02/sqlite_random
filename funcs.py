@@ -1,12 +1,26 @@
 import main
+from getpass import getpass
 
 
 def personal_desc():
     first_name = input("Input your first name: ")
     last_name = input("Input your last name: ")
     age = int(input("Input your age: "))
+
     email = input("Input your e-mail adress: ")
-    password_u = str(input("Create password: "))
+
+    # wrong_email = check_email(email)
+    # while wrong_email == True:
+    #     email = str(
+    #         input("E-Mail adress must contain @ and . | Please enter again: "))
+    #     wrong_email = check_email(email)
+
+    password_u = getpass("Enter your password: ")
+    wrong_symbols = check_password(password_u)
+    while len(password_u) < 5 or len(password_u) > 20 or wrong_symbols:
+        password_u = str(
+            input("password must have min 5 chars, can´t contain space ~ * and | it cant be longer than 20 chars! Please re-enter pwd again: "))
+        wrong_symbols = check_password(password_u)
     conclude = str(
         input("Do you want to be added to the database? Answer with (yes/no): "))
     if conclude == "yes":
@@ -18,6 +32,21 @@ def personal_desc():
         print("Invalid input. Please try again!")
         personal_desc()
     return first_name, last_name, age, email, password_u
+
+
+def check_email(email):
+    return
+    # for letter in email:
+    #     if letter in ".@":
+    #         return False
+    # return True
+
+
+def check_password(password_u):
+    for letter in password_u:
+        if letter in " ~|*":
+            return True
+    return False
 
 
 def delete_table():
