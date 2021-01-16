@@ -2,6 +2,9 @@ import main
 import random
 import string
 from getpass import getpass
+import os
+import hashlib
+
 
 age = None
 
@@ -28,7 +31,11 @@ def create_pwd():
         if password_r != password_u:
             print("Passwords are not the same! Please repeat")
             create_pwd()
-    return password_u
+    salt = os.urandom(32)
+    key = hashlib.pbkdf2_hmac(
+        'sha256', password_u.encode('utf-8'), salt, 100000)
+    storage = salt + key
+    return storage, password_u, salt, key
 
 
 def personal_desc():
@@ -51,7 +58,7 @@ def personal_desc():
         input("Do you want to be added to the database? Answer with (yes/no): "))
     if conclude == "yes":
         main.add_user_to_database(
-            first_name, last_name, age, email, password_u, id_us)
+            first_name, last_name, age, email, key, salt, storage, id_us)
     elif conclude == "no":
         return
     else:

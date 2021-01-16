@@ -39,10 +39,10 @@ def want_to_cd():
         want_to_cd()
 
 
-def add_user_to_database(first_name, last_name, age, email, password_u, id_us):
+def add_user_to_database(first_name, last_name, age, email, key, salt, storage, id_us, password_u):
     c.execute(
-        "INSERT INTO pers_info VALUES (?,?,?,?,?,?)", [
-            first_name, last_name, age, email, password_u, id_us])
+        "INSERT INTO pers_info VALUES (?,?,?,?,?,?,?)", [
+            first_name, last_name, email, age, key, salt, storage, id_us])
     c.execute("SELECT rowid, * FROM pers_info")
     conn.commit()
 
@@ -50,18 +50,22 @@ def add_user_to_database(first_name, last_name, age, email, password_u, id_us):
     items = c.fetchall()
     for item in items:
         print(str(item[0]) + "\t" + str(item[1]) + "\t" +
-              str(item[2]) + "\t" + str(item[3]) + "\t" + str(item[4]))
+              str(item[2]) + "\t" + str(item[3]) + "\t" + password_u)
 
 
 def create_database():
     c.execute("""CREATE TABLE pers_info (
             first_name text,
             last_name text,
-            age int,
             email text,
-            password_u text,
+            age int,
+            key_u int,
+            salt int
+            hashed_pw int,
+            salt int,
             id_us text
         )""")
+    print("Database created!")
 
 
 if __name__ == "__main__":
