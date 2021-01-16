@@ -10,12 +10,12 @@ c = conn.cursor()
 
 def start():
     what_to_do = input(
-        "What to do: Type 'createDatabase':create  database |'deleteDatabase':delete the database | 'add_account':add an account to the database | 'exit':close the program| 'request_info':request stored info about you: ")
+        "What to do: Type 'createDatabase':create  database |'deleteDatabase':delete the database | 'add_acc':add an account to the database | 'exit':close the program| 'request_info':request stored info about you: ")
     if what_to_do == "createDatabase":
         create_database()
     elif what_to_do == "deleteDatabase":
         funcs.delete_table()
-    elif what_to_do == "add_account":
+    elif what_to_do == "add_acc":
         funcs.personal_desc()
     elif what_to_do == "request_info":
         request.request_info()
@@ -39,10 +39,10 @@ def want_to_cd():
         want_to_cd()
 
 
-def add_user_to_database(first_name, last_name, age, email, password_u):
+def add_user_to_database(first_name, last_name, age, email, password_u, id_us):
     c.execute(
-        "INSERT INTO pers_info VALUES (?,?,?,?,?)", [
-            first_name, last_name, age, email, password_u])
+        "INSERT INTO pers_info VALUES (?,?,?,?,?,?)", [
+            first_name, last_name, age, email, password_u, id_us])
     c.execute("SELECT rowid, * FROM pers_info")
     conn.commit()
     items = c.fetchall()
@@ -57,14 +57,15 @@ def create_database():
             last_name text,
             age int,
             email text,
-            password_u text
+            password_u text,
+            id_us text
         )""")
 
 
 if __name__ == "__main__":
 
     start()
-    print("ccooosfa")
+    print("exit")
     conn.commit()
 
     conn.close()
