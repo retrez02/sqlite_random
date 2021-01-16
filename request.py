@@ -1,5 +1,4 @@
 import main
-import funcs
 import os
 import hashlib
 from getpass import getpass
