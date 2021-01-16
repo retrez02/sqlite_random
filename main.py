@@ -11,11 +11,11 @@ c = conn.cursor()
 
 def start():
     what_to_do = input(
-        "What to do: Type 'create_database': create database | 'delete_database': delete database | 'add_acc': add account | 'exit': close | 'request_info': request stored info about you: ")
+        "Type 'create_database': create database | 'delete_database': delete database | 'add_acc': add account | 'exit': close | 'request_info': request stored info about you: ")
     if what_to_do == "create_database":
         delete_create.create_database()
     elif what_to_do == "delete_database":
-        delete_create.delete_table()
+        delete_create.delete_database()
     elif what_to_do == "add_acc":
         user.personal_desc()
     elif what_to_do == "request_info":
@@ -34,7 +34,6 @@ def add_user_to_database(first_name, last_name, email, age, key_u, salt, storage
             first_name, last_name, email, age, key_u, salt, storage, id_us])
     c.execute("SELECT rowid, * FROM pers_info")
     conn.commit()
-
     c.execute("SELECT * FROM pers_info ORDER BY rowid DESC LIMIT 1")
     items = c.fetchall()
     for item in items:
@@ -47,5 +46,4 @@ if __name__ == "__main__":
     start()
     print("#exit")
     conn.commit()
-
     conn.close()

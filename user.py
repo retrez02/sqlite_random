@@ -4,6 +4,7 @@ import string
 from getpass import getpass
 import os
 import hashlib
+import re
 
 age = None
 
@@ -11,17 +12,9 @@ age = None
 def personal_desc():
     first_name = input("Input your first name: ")
     last_name = input("Input your last name: ")
+    email = check_email()
     age = add_age()
-
-    email = input("Input your e-mail adress: ")
     storage, password_u, salt, key_u = create_pwd()
-
-    # wrong_email = check_email(email)
-    # while wrong_email == True:
-    #     email = str(
-    #         input("E-Mail adress must contain @ and . | Please enter again: "))
-    #     wrong_email = check_email(email)
-
     id_us = id_creation()
     conclude = str(
         input("Do you want to be added to the database? Answer with (yes/no): "))
@@ -29,6 +22,7 @@ def personal_desc():
         main.add_user_to_database(
             first_name, last_name, email, age, key_u, salt, storage, id_us, password_u)
     elif conclude == "no":
+        print("Alright!")
         return
     else:
         print("Invalid input. Please try again!")
@@ -77,6 +71,16 @@ def check_password(password_u):
     return False
 
 
+def check_email():
+    email = input("Input your e-mail adress: ")
+    regexp = re.compile(r'@.')
+    if regexp.search(email):
+        return email
+    else:
+        print("Must contain @ and .")
+        check_email()
+
+
 def id_creation():
     id_us = "userID#" + "".join(random.choice(string.ascii_letters + string.digits)
                                 for _ in range(15))
@@ -90,11 +94,3 @@ def id_creation():
                        (id_us,))
         counter = main.c.fetchall()
     return id_us
-
-
-def check_email(email):
-    return
-    # for letter in email:
-    #     if letter in ".@":
-    #         return False
-    # return True

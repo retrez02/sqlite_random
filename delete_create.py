@@ -1,18 +1,5 @@
 import main
-
-
-def delete_table():
-    ask_delete = str(
-        input("Do you really want to delete the database? Answer with (yes/no): "))
-    if ask_delete == "yes":
-        main.c.execute("DROP TABLE pers_info")
-        main.conn.commit()
-        print("Successfully deleted!")
-    elif ask_delete == "no":
-        print("Alright! Finished!")
-    else:
-        print("Invalid input. Please try again!")
-        delete_table()
+from getpass import getpass
 
 
 def create_database():
@@ -27,6 +14,28 @@ def create_database():
             id_us text
         )""")
     print("Database created!")
+
+
+def delete_database():
+    master_pwd = getpass(
+        "Type in the master password to be able to delete the database: ")
+    if master_pwd == "123":
+        ask_delete = str(
+            input("Do you really want to delete the database? Answer with (yes/no): "))
+        if ask_delete == "yes":
+            main.c.execute("DROP TABLE pers_info")
+            main.conn.commit()
+            print("Successfully deleted!")
+            main.start()
+        elif ask_delete == "no":
+            print("Alright! Finished!")
+            main.start()
+        else:
+            print("Invalid input. Please try again!")
+        delete_database()
+    else:
+        print("Wrong password. Please try again!")
+        delete_database()
 
 
 def want_to_cd():

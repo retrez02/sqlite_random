@@ -18,7 +18,6 @@ def request_info():
 
 
 def request_handler():
-
     email_r = str(
         input("Please enter your e-mail adress: "))
     pwd_r = str(
