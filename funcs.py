@@ -3,6 +3,8 @@ import random
 import string
 from getpass import getpass
 
+age = None
+
 
 def check_password(password_u):
     for letter in password_u:
@@ -32,15 +34,17 @@ def create_pwd():
 def personal_desc():
     first_name = input("Input your first name: ")
     last_name = input("Input your last name: ")
-    age = int(input("Input your age: "))
+    age = add_age()
 
     email = input("Input your e-mail adress: ")
     password_u = create_pwd()
+
     # wrong_email = check_email(email)
     # while wrong_email == True:
     #     email = str(
     #         input("E-Mail adress must contain @ and . | Please enter again: "))
     #     wrong_email = check_email(email)
+
     id_us = "userID#" + "".join(random.choice(string.ascii_letters + string.digits)
                                 for _ in range(15))
     conclude = str(
@@ -55,6 +59,19 @@ def personal_desc():
         personal_desc()
 
     return first_name, last_name, age, email, password_u, id_us
+
+
+def add_age():
+    try:
+        global age
+        age = int(input("Enter your age: "))
+        while age < 10.0 or age > 150.0:
+            age = int(
+                input("Your age must be between 10 and 150! Please re-enter your age again: "))
+    except ValueError:
+        print("Invalid input! Enter a number")
+        add_age()
+    return age
 
 
 def check_email(email):

@@ -1,5 +1,7 @@
 import main
 import funcs
+from getpass import getpass
+# from pprint import pprint
 
 
 def request_info():
@@ -18,13 +20,14 @@ def request_handler():
     email_r = str(
         input("Please enter your e-mail adress: "))
     pwd_r = str(
-        input("Please enter your password: "))
+        getpass("Please enter your password: "))
 
     main.c.execute("SELECT * FROM pers_info WHERE email == ? AND password_u == ?",
                    ((email_r), (pwd_r),))
     users = main.c.fetchall()
     if len(users) == 0:
-        print("x")
+        print("Not the correct data! Please try again!")
+        request_handler()
     for user in users:
-        print(str(user[0]) + "\t\t" + str(user[1]) + "\t\t" +
-              str(user[2]) + "\t\t" + str(user[3]) + "\t\t" + str(user[4]))
+        print(str(user[0]) + "\t" + str(user[1]) + "\t" +
+              str(user[2]) + "\t" + str(user[3]) + "\t" + str(user[4]))

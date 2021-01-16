@@ -45,10 +45,12 @@ def add_user_to_database(first_name, last_name, age, email, password_u, id_us):
             first_name, last_name, age, email, password_u, id_us])
     c.execute("SELECT rowid, * FROM pers_info")
     conn.commit()
-    items = c.fetchall()
 
+    c.execute("SELECT * FROM pers_info ORDER BY rowid DESC LIMIT 1")
+    items = c.fetchall()
     for item in items:
-        print(item)
+        print(str(item[0]) + "\t" + str(item[1]) + "\t" +
+              str(item[2]) + "\t" + str(item[3]) + "\t" + str(item[4]))
 
 
 def create_database():
@@ -65,7 +67,7 @@ def create_database():
 if __name__ == "__main__":
 
     start()
-    print("exit")
+    print("#exit")
     conn.commit()
 
     conn.close()
