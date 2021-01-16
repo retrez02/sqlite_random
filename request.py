@@ -19,16 +19,24 @@ def request_info():
 
 
 def request_handler():
-    main.c.execute("SELECT * FROM pers_info ORDER BY rowid DESC LIMIT 1")
-
-    salt = b''
-
-    key = b''
 
     email_r = str(
         input("Please enter your e-mail adress: "))
     pwd_r = str(
         getpass("Please enter your password: "))
+
+    main.c.execute("SELECT * FROM pers_info WHERE email = ?",
+                   (email_r,))
+    get_info = main.c.fetchall()
+    if len(get_info) == 0:
+        print("Not the correct data! Please try again!")
+        request_handler()
+    if len(get_info[0]) == 0:
+        print("Not the correct data! Please try again!")
+        request_handler()
+
+    salt = bytes(get_info[0][5])
+    key_u = bytes(get_info[0][4])
 
     new_key = hashlib.pbkdf2_hmac(
         'sha256',
@@ -37,18 +45,18 @@ def request_handler():
         100000
     )
 
-    if new_key == key:
+    if new_key == key_u:
         print('Password is correct')
     else:
         print('Password is incorrect')
         request_handler()
 
-    main.c.execute("SELECT * FROM pers_info WHERE email == ? AND storage == ?",
-                   ((email_r), (new_key),))
+    main.c.execute("SELECT * FROM pers_info WHERE email == ? AND key_u == ?",
+                   ((email_r), (new_key)))
     users = main.c.fetchall()
     if len(users) == 0:
         print("Not the correct data! Please try again!")
         request_handler()
     for user in users:
         print(str(user[0]) + "\t" + str(user[1]) + "\t" +
-              str(user[2]) + "\t" + str(user[3]) + "\t" + pwd_r)
+              str(user[2]) + "\t" + str(user[3]) + "\t" + str(pwd_r))

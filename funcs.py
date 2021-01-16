@@ -32,10 +32,10 @@ def create_pwd():
             print("Passwords are not the same! Please repeat")
             create_pwd()
     salt = os.urandom(32)
-    key = hashlib.pbkdf2_hmac(
+    key_u = hashlib.pbkdf2_hmac(
         'sha256', password_u.encode('utf-8'), salt, 100000)
-    storage = salt + key
-    return storage, password_u, salt, key
+    storage = salt + key_u
+    return storage, password_u, salt, key_u
 
 
 def personal_desc():
@@ -44,7 +44,7 @@ def personal_desc():
     age = add_age()
 
     email = input("Input your e-mail adress: ")
-    password_u = create_pwd()
+    storage, password_u, salt, key_u = create_pwd()
 
     # wrong_email = check_email(email)
     # while wrong_email == True:
@@ -52,20 +52,34 @@ def personal_desc():
     #         input("E-Mail adress must contain @ and . | Please enter again: "))
     #     wrong_email = check_email(email)
 
-    id_us = "userID#" + "".join(random.choice(string.ascii_letters + string.digits)
-                                for _ in range(15))
+    id_us = id_creation()
     conclude = str(
         input("Do you want to be added to the database? Answer with (yes/no): "))
     if conclude == "yes":
         main.add_user_to_database(
-            first_name, last_name, age, email, key, salt, storage, id_us)
+            first_name, last_name, email, age, key_u, salt, storage, id_us, password_u)
     elif conclude == "no":
         return
     else:
         print("Invalid input. Please try again!")
         personal_desc()
 
-    return first_name, last_name, age, email, password_u, id_us
+    # return first_name, last_name, age, email, password_u, id_us
+
+
+def id_creation():
+    id_us = "userID#" + "".join(random.choice(string.ascii_letters + string.digits)
+                                for _ in range(15))
+    main.c.execute("SELECT * FROM pers_info WHERE id_us = ?",
+                   (id_us,))
+    counter = main.c.fetchall()
+    while len(counter) != 0:
+        id_us = "userID#" + "".join(random.choice(string.ascii_letters + string.digits)
+                                    for _ in range(15))
+        main.c.execute("SELECT * FROM pers_info WHERE id_us = ?",
+                       (id_us,))
+        counter = main.c.fetchall()
+    return id_us
 
 
 def add_age():

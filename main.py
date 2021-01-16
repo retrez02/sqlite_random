@@ -10,10 +10,10 @@ c = conn.cursor()
 
 def start():
     what_to_do = input(
-        "What to do: Type 'createDatabase':create  database |'deleteDatabase':delete the database | 'add_acc':add an account to the database | 'exit':close the program| 'request_info':request stored info about you: ")
-    if what_to_do == "createDatabase":
+        "What to do: Type 'create_database': create database | 'delete_database': delete database | 'add_acc': add account | 'exit': close | 'request_info': request stored info about you: ")
+    if what_to_do == "create_database":
         create_database()
-    elif what_to_do == "deleteDatabase":
+    elif what_to_do == "delete_database":
         funcs.delete_table()
     elif what_to_do == "add_acc":
         funcs.personal_desc()
@@ -39,10 +39,10 @@ def want_to_cd():
         want_to_cd()
 
 
-def add_user_to_database(first_name, last_name, age, email, key, salt, storage, id_us, password_u):
+def add_user_to_database(first_name, last_name, email, age, key_u, salt, storage, id_us, password_u):
     c.execute(
-        "INSERT INTO pers_info VALUES (?,?,?,?,?,?,?)", [
-            first_name, last_name, email, age, key, salt, storage, id_us])
+        "INSERT INTO pers_info VALUES (?,?,?,?,?,?,?,?)", [
+            first_name, last_name, email, age, key_u, salt, storage, id_us])
     c.execute("SELECT rowid, * FROM pers_info")
     conn.commit()
 
@@ -60,9 +60,8 @@ def create_database():
             email text,
             age int,
             key_u int,
-            salt int
-            hashed_pw int,
             salt int,
+            hashed_pw int,
             id_us text
         )""")
     print("Database created!")
