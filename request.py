@@ -1,5 +1,4 @@
 import main
-import os
 import hashlib
 from getpass import getpass
 # from pprint import pprint
@@ -50,7 +49,7 @@ def request_handler():
         request_handler()
 
     main.c.execute("SELECT * FROM pers_info WHERE email == ? AND key_u == ?",
-                   ((email_r), (new_key)))
+                   (email_r, new_key))
     users = main.c.fetchall()
     if len(users) == 0:
         print("Not the correct data! Please try again!")

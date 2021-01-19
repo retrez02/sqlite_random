@@ -11,7 +11,8 @@ c = conn.cursor()
 
 def start():
     what_to_do = input(
-        "Type 'create_database': create database | 'delete_database': delete database | 'add_acc': add account | 'exit': close | 'request_info': request stored info about you: ")
+        "Type 'create_database': create database | 'delete_database': delete database | 'add_acc': add account | "
+        "'exit': close | 'request_info': request stored info about you: ")
     if what_to_do == "create_database":
         delete_create.create_database()
     elif what_to_do == "delete_database":

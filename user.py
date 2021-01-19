@@ -6,8 +6,6 @@ import os
 import hashlib
 import re
 
-age = None
-
 
 def personal_desc():
     first_name = input("Input your first name: ")
@@ -31,15 +29,14 @@ def personal_desc():
 
 def add_age():
     try:
-        global age
         age = int(input("Enter your age: "))
         while age < 10.0 or age > 150.0:
             age = int(
                 input("Your age must be between 10 and 150! Please re-enter your age again: "))
+        return age
     except ValueError:
         print("Invalid input! Enter a number")
-        add_age()
-    return age
+        return add_age()
 
 
 def create_pwd():
@@ -49,9 +46,11 @@ def create_pwd():
         print("Passwords are not the same! Please repeat")
         create_pwd()
     wrong_symbols = check_password(password_u)
-    while len(password_u) < 5 or len(password_u) > 20 or wrong_symbols == True:
+    while len(password_u) < 5 or len(password_u) > 20 or wrong_symbols:
         password_u = str(
-            getpass("password must have min 5 chars, can´t contain space ~ * and | it cant be longer than 20 chars! Please re-enter pwd again: "))
+            getpass(
+                "password must have min 5 chars, can´t contain space ~ * and | it cant be longer than 20 chars! "
+                "Please re-enter pwd again: "))
         password_r = str(getpass("Please repeat your password: "))
         wrong_symbols = check_password(password_u)
         if password_r != password_u:
@@ -72,7 +71,7 @@ def check_password(password_u):
 
 
 def check_email():
-    email = input("Input your e-mail adress: ")
+    email = input("Input your e-mail address: ")
     regexp = re.compile(r'@.')
     if regexp.search(email):
         return email
